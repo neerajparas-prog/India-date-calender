@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173b70">
+<title>India Date Calendar V4</title>
+<style>
+:root{--ink:#13264a;--blue:#1468c7;--navy:#103b78;--saffron:#ff8a00;--pink:#e83e8c;--purple:#7344c5;--teal:#138b86;--green:#16845d;--muted:#66758d;--line:#e7e9ee}
+*{box-sizing:border-box}body{margin:0;background:#edf3fb;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{position:relative;overflow:hidden;color:#17294a;background:linear-gradient(100deg,#fff2d4 0%,#fff9e9 38%,#ffe4bd 72%,#f8c9aa 100%);border-bottom:4px solid #ff9c20}
+header:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 20%,#ffffffb0 0 4%,transparent 20%),radial-gradient(circle at 90% 5%,#ffffffb0 0 5%,transparent 23%),linear-gradient(90deg,transparent,#ffdc9b55);pointer-events:none}
+.hero{max-width:1500px;margin:auto;padding:18px 20px 20px;display:flex;align-items:center;gap:16px;position:relative;min-height:112px}
+.flag{font-size:49px;filter:drop-shadow(0 3px 4px #0002)}.brand{flex:1}.brand h1{margin:0;font-size:clamp(25px,3.2vw,42px);font-family:Georgia,serif;font-style:italic;letter-spacing:-1px;color:#17254a}.brand h1 span{font:700 13px system-ui;background:#1266c5;color:white;padding:5px 9px;border-radius:8px;vertical-align:middle}.brand .sub{margin-top:4px;font-weight:750;color:#8b3519}.brand .hindi{font-size:13px;font-weight:650;color:#603b20;margin-top:3px}.hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.hero-right button{border:1px solid #ffffffaa;background:#ffffffd9;border-radius:22px;padding:9px 14px;font-weight:750}
+main{max-width:1500px;margin:12px auto;padding:0 12px 22px}
+.topbar{display:grid;grid-template-columns:1.15fr 1fr 1fr 1.25fr auto;gap:9px;margin-bottom:10px}
+.top-pill{border:1px solid #dfe8f7;border-radius:15px;padding:10px 12px;display:flex;align-items:center;justify-content:center;gap:9px;background:#fff;box-shadow:0 4px 12px #213c6b12;font-weight:800;min-width:0}
+.top-pill small{display:block;font-weight:500;font-size:11px}.top-pill.blue{background:linear-gradient(120deg,#1769cc,#16478e);color:white}.top-pill.gold{background:linear-gradient(120deg,#ffb52e,#ffe6a5);color:#382a10}.top-pill.google{justify-content:space-between}.connected{background:#11865b;color:#fff;border-radius:10px;padding:7px 10px;font-size:11px;white-space:nowrap}
+.workspace{display:grid;grid-template-columns:170px minmax(420px,1.3fr) minmax(300px,.9fr) minmax(270px,.78fr);gap:10px;align-items:stretch}
+.card{background:#fff;border:1px solid #e1e8f3;border-radius:17px;box-shadow:0 5px 18px #1e3b6610;overflow:hidden}
+.month-rail{padding:10px 8px;background:linear-gradient(180deg,#fff,#f1f6ff)}.month-rail h3{font-size:13px;margin:4px 8px 8px;color:#65758c}.month-nav{display:flex;gap:4px;align-items:center;margin:0 4px 10px}.month-nav select{min-width:0;width:100%;font-weight:800}
+.month-link{width:100%;display:flex;align-items:center;gap:8px;text-align:left;border:0;background:transparent;border-radius:12px;padding:9px 8px;margin:2px 0;font-size:12px;font-weight:750}.month-link .emoji{font-size:19px;width:24px;text-align:center}.month-link small{font-weight:500;color:#6b7890}.month-link.active{background:linear-gradient(100deg,#ff8a00,#ffb326);color:white;box-shadow:0 4px 10px #ff9b1f44}.month-link.active small{color:#fff}.month-link:hover{background:#eaf1ff}.month-link.active:hover{background:linear-gradient(100deg,#ff8a00,#ffb326)}
+.calendar-panel{padding:12px;background:#fff}.calendar-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 5px 13px;background:linear-gradient(90deg,#fff,#e8f4ff,#fff7e7);border-radius:13px;margin-bottom:7px}.calendar-head h2{margin:0;font-size:24px;text-align:center}.calendar-head .en-month{text-align:center;font-size:14px;font-weight:700}.calendar-head button{font-size:19px;border:0;background:#fff;border-radius:12px;box-shadow:0 2px 8px #0001}
+.weekdays,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekdays div{text-align:center;padding:9px 0 7px;font-size:11px;font-weight:850;color:#5b6c86}.weekdays div:first-child,.weekdays div:last-child{color:#d53c4e}
+.day{position:relative;min-height:59px;text-align:center;border:1px solid #f0e9df;border-radius:9px;padding:6px 2px;background:linear-gradient(150deg,#fff,#fffdfa);display:flex;flex-direction:column;align-items:center;gap:3px;overflow:hidden}.day .num{font-size:14px;font-weight:850}.day .tiny{font-size:9px;line-height:1.1;color:#285aa0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.day.other{opacity:.3;background:#f5f6fa}.day.today{border:2px solid #ff9b14;background:#fff1c9}.day.selected{border:2px solid #1675e5;background:linear-gradient(145deg,#1379e5,#234fc4);color:white;box-shadow:0 4px 12px #1468c744}.day.selected .tiny{color:white}.day.sunday .num{color:#df4054}.day.selected.sunday .num{color:white}.day.has-event:after{content:"";position:absolute;bottom:5px;right:6px;width:5px;height:5px;border-radius:50%;background:#ec4d89}.day.selected:after{background:#ffcb2e}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.legend span{font-size:10px;background:#f5f7fc;border-radius:15px;padding:5px 7px;color:#64718a}
+.detail-column{display:flex;flex-direction:column;gap:9px}.selected-hero{background:linear-gradient(135deg,#ffe5b6,#fff9e9 55%,#dff4ff);padding:12px;text-align:center;border:1px solid #f3dfbd;border-radius:16px;position:relative;overflow:hidden}.selected-hero:before{content:"✿  ❋  ✿";position:absolute;left:8px;top:8px;color:#e8a44c;opacity:.5;font-size:20px}.selected-hero .weekday{font-weight:800;font-size:13px}.selected-hero .bigday{font-size:64px;line-height:1.05;font-weight:900;color:#13264a}.selected-hero .date-label{font-size:16px;font-weight:800}
+.section-card{padding:11px}.section-title{font-size:15px;font-weight:900;margin:0 0 9px;display:flex;align-items:center;gap:7px;color:#18345f}.section-title .icon{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:9px;background:#fff0d7}.eventlist{display:flex;flex-direction:column;gap:7px}.event{border:1px solid #e7edf6;border-radius:11px;padding:8px 9px;background:linear-gradient(110deg,#fff,#f5f8ff);border-left:4px solid #ff9b22}.event:nth-child(3n+2){border-left-color:#20a17c}.event:nth-child(3n){border-left-color:#8a5bd4}.eventname{font-weight:800;font-size:12px}.eventmeta{font-size:10px;color:#65758d;margin-top:3px}.pill{display:inline-block;font-size:9px;font-weight:800;padding:3px 7px;border-radius:14px;background:#e6efff;color:#24528f;margin-top:5px}.pill.holiday{background:#ffe4e6;color:#b52e3c}.pill.meeting{background:#d9f7e8;color:#176746}.pill.panchang{background:#fff0cb;color:#805400}.pill.famous{background:#e6eaff;color:#5145a5}.pill.festival{background:#fff0d8;color:#9a5a00}.muted{font-size:11px;color:#6a7890;line-height:1.45}
+.panchang-panel{padding:12px;background:linear-gradient(180deg,#fff8e6,#fff 40%)}.panchang-panel .section-title{font-size:17px}.panchang-row{display:grid;grid-template-columns:1fr 1.2fr;gap:8px;padding:8px 4px;border-bottom:1px solid #f0e5d0;font-size:11px}.panchang-row span:first-child{color:#8c6733}.panchang-row strong{font-weight:800}.google-controls{display:flex;flex-direction:column;gap:7px}.google-controls input,.google-controls select,.searchrow input,.searchrow select{border:1px solid #dce5f2;border-radius:9px;padding:9px;width:100%;min-width:0;background:white;font:inherit;font-size:12px}.btn{border:1px solid #dfe6f2;border-radius:9px;padding:8px 10px;background:#fff;font-size:11px;font-weight:800;cursor:pointer}.btn.primary{background:linear-gradient(120deg,#1769cc,#15488e);color:#fff;border:0}.btn.orange{background:linear-gradient(120deg,#ff8a00,#ffb02e);color:white;border:0}.status{padding:8px;border-radius:9px;background:#f0f4fb;font-size:10px;line-height:1.4;margin:4px 0}.status.ok{background:#e3f8ed;color:#176746}.status.err{background:#fff0f0;color:#a52b2b}.eventbuttons{display:flex;gap:6px;flex-wrap:wrap}.eventbuttons button{flex:1}.empty{border:1px dashed #d2ddef;background:#f8faff;padding:12px;text-align:center;border-radius:10px;color:#6a7890;font-size:11px}
+.bottom-grid{display:grid;grid-template-columns:1.05fr 1fr 1.1fr 1.05fr;gap:10px;margin-top:10px}.bottom-card{display:grid;grid-template-columns:78px 1fr;min-height:138px;overflow:hidden}.bottom-art{display:flex;align-items:center;justify-content:center;font-size:43px;background:linear-gradient(150deg,#ffedc7,#ffd8a0)}.bottom-card:nth-child(2) .bottom-art{background:linear-gradient(150deg,#fff0b5,#ffb84a)}.bottom-card:nth-child(3) .bottom-art{background:linear-gradient(150deg,#d8f7e8,#91d8c0)}.bottom-card:nth-child(4) .bottom-art{background:linear-gradient(150deg,#e9e0ff,#c8b6ff)}.bottom-content{padding:10px}.bottom-content h3{margin:0 0 6px;font-size:13px;line-height:1.2}.bottom-content .en{font-size:10px;color:#718098;font-weight:600}.bottom-content ul{padding-left:15px;margin:6px 0;font-size:10px;line-height:1.5}.bottom-content button{font-size:10px;padding:6px 8px;border:0;background:linear-gradient(120deg,#ff8a00,#ffb52e);color:#fff;border-radius:8px;font-weight:800}.searchrow{display:flex;gap:6px;margin-bottom:8px}.searchrow input{flex:1}.searchrow select{width:115px}.month-list-wrap{max-height:330px;overflow:auto}
+@media(max-width:1150px){.workspace{grid-template-columns:145px minmax(360px,1.2fr) minmax(270px,.9fr)}.panchang-panel{grid-column:3}.detail-column{grid-column:2}.month-rail{grid-row:1/3}.topbar{grid-template-columns:1fr 1fr 1fr}.top-pill.google{grid-column:span 2}.bottom-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.hero{padding:14px;gap:9px}.flag{font-size:35px}.hero-right{width:100%;flex-direction:row;justify-content:flex-end}.workspace{grid-template-columns:1fr}.month-rail{grid-row:auto}.month-rail .month-links{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.month-link{padding:7px 4px;gap:3px;justify-content:center}.month-link .emoji{width:auto}.month-link span:last-child{font-size:10px}.calendar-panel,.detail-column,.panchang-panel{grid-column:auto}.day{min-height:53px}.day .tiny{font-size:8px}.topbar{grid-template-columns:1fr 1fr}.top-pill.google{grid-column:span 2}.bottom-grid{grid-template-columns:1fr}.bottom-card{min-height:115px}.bottom-art{font-size:38px}.selected-hero .bigday{font-size:54px}}
+@media(max-width:390px){.day{min-height:46px}.day .tiny{display:none}.weekdays div{font-size:9px}.month-rail .month-links{grid-template-columns:repeat(2,1fr)}.top-pill{font-size:12px;padding:8px}.brand .hindi{font-size:11px}}
+
+/* V6.2 mobile visibility and layout fixes */
+.day{color:#13264a!important;position:relative;isolation:isolate}
+.day .num{display:block!important;visibility:visible!important;opacity:1!important;color:#13264a!important;font-size:clamp(13px,2.8vw,16px)!important;font-weight:900!important;line-height:1.35!important;min-height:18px;z-index:2}
+.day.selected .num{color:#fff!important}
+.day.sunday .num{color:#d53c4e!important}
+.day.selected.sunday .num{color:#fff!important}
+.day.other .num{color:#8994a5!important}
+.day .tiny{position:relative;z-index:1}
+@media(max-width:760px){
+  .workspace{display:flex!important;flex-direction:column!important}
+  .calendar-panel{order:1!important;width:100%;display:block!important}
+  .detail-column{order:2!important;width:100%}
+  .panchang-panel{order:3!important;width:100%}
+  .month-rail{order:4!important;width:100%}
+  .calendar-panel .days{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:3px!important}
+  .calendar-panel .weekdays{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:3px!important}
+  .day{min-width:0!important;min-height:47px!important;padding:5px 1px!important;border-radius:8px!important;overflow:visible!important}
+  .day .num{font-size:14px!important}
+  .day .tiny{font-size:8px!important;max-width:100%;overflow:hidden}
+  .month-rail .month-links{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:3px!important}
+  .month-link{min-width:0!important;justify-content:flex-start!important;padding:7px 5px!important}
+  .month-link span:last-child{font-size:11px!important}
+  .month-link small{font-size:9px!important}
+  .topbar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .top-pill.google{grid-column:span 2!important}
+}
+@media(max-width:390px){
+  .day{min-height:43px!important}
+  .day .num{font-size:13px!important}
+  .calendar-panel{padding:8px!important}
+  .weekdays div{font-size:9px!important}
+  .calendar-head h2{font-size:20px!important}
+  .calendar-head .en-month{font-size:12px!important}
+  .month-rail .month-links{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
+
+/* V6.3 explicit calendar table visibility */
+#calendar{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;visibility:visible!important;min-height:220px}
+#calendar .day{display:flex!important;align-items:center!important;justify-content:flex-start!important;min-width:0!important;min-height:54px!important;background:#fff!important;border:1px solid #dfe6f2!important;color:#172033!important;position:relative!important;opacity:1!important}
+#calendar .day .num{display:block!important;visibility:visible!important;opacity:1!important;color:#172033!important;font-size:16px!important;font-weight:900!important;line-height:1.4!important}
+#calendar .day.selected{background:#1769cc!important;border:2px solid #0f4ca5!important}
+#calendar .day.selected .num{color:#fff!important}
+#calendar .day.today:not(.selected){background:#fff0c7!important;border:2px solid #ff9800!important}
+#calendar .day.other{background:#f4f6fa!important;opacity:.55!important}
+#calendar .day.sunday .num{color:#d53c4e!important}
+#calendar .day.selected.sunday .num{color:#fff!important}
+@media(max-width:760px){#calendar{gap:3px!important;min-height:250px!important}#calendar .day{min-height:48px!important;padding:5px 1px!important}#calendar .day .num{font-size:15px!important}}
+
+</style>
+</head>
+<body>
+<header>
+ <div class="hero">
+  <div class="flag">🇮🇳</div>
+  <div class="brand"><h1>India Date Calendar <span>V5</span></h1><div class="sub">Your Calendar · Our Culture · Your Plans</div><div class="hindi">भारत का कैलेंडर — त्योहार, पंचांग, राष्ट्रीय दिवस और आपकी मीटिंग</div></div>
+  <div class="hero-right"><button>“समय ही जीवन है”</button><button aria-label="Settings">⚙️</button><button>📍 भारत　|　हिंदी / English</button></div>
+ </div>
+</header>
+<main>
+ <div class="topbar">
+  <button class="top-pill blue" id="topEnglish">▦ <div>अंग्रेज़ी कैलेंडर<small>English Calendar</small></div></button>
+  <button class="top-pill gold" id="topHindi">☀️ <div>हिंदी पंचांग<small>Hindu Panchang</small></div></button>
+  <div class="top-pill">◫ <div>दोनों साथ<small>Both View</small></div></div>
+  <div class="top-pill google">🌐 <div>Google Calendar<small>मेरी मीटिंग देखें (Read Only)</small></div><span id="topConnected" class="connected">◉ Connect</span></div>
+  <button id="todayBtn" class="primary">▦ आज / Today</button>
+ </div>
+ <div class="workspace">
+  <aside class="card month-rail">
+   <div class="month-nav"><button id="prevYear" class="btn">‹</button><select id="yearSelect" aria-label="Year"></select><button id="nextYear" class="btn">›</button></div>
+   <h3>महीना चुनें · Select month</h3>
+   <div id="monthLinks" class="month-links">
+    <button class="month-link" data-m="0"><span class="emoji">🪁</span><span>जनवरी <small>January</small></span></button>
+    <button class="month-link" data-m="1"><span class="emoji">💗</span><span>फ़रवरी <small>February</small></span></button>
+    <button class="month-link" data-m="2"><span class="emoji">🌺</span><span>मार्च <small>March</small></span></button>
+    <button class="month-link" data-m="3"><span class="emoji">🌿</span><span>अप्रैल <small>April</small></span></button>
+    <button class="month-link" data-m="4"><span class="emoji">☀️</span><span>मई <small>May</small></span></button>
+    <button class="month-link" data-m="5"><span class="emoji">🌳</span><span>जून <small>June</small></span></button>
+    <button class="month-link" data-m="6"><span class="emoji">☂️</span><span>जुलाई <small>July</small></span></button>
+    <button class="month-link" data-m="7"><span class="emoji">🇮🇳</span><span>अगस्त <small>August</small></span></button>
+    <button class="month-link" data-m="8"><span class="emoji">📚</span><span>सितंबर <small>September</small></span></button>
+    <button class="month-link" data-m="9"><span class="emoji">🪔</span><span>अक्टूबर <small>October</small></span></button>
+    <button class="month-link" data-m="10"><span class="emoji">🪷</span><span>नवंबर <small>November</small></span></button>
+    <button class="month-link" data-m="11"><span class="emoji">❄️</span><span>दिसंबर <small>December</small></span></button>
+   </div>
+   <div class="section"><input id="search" placeholder="🔎 दिवस खोजें / Search"></div>
+  </aside>
+  <section class="card calendar-panel">
+   <div class="mode"><button id="englishMode" class="active">▦ अंग्रेज़ी कैलेंडर<br><small>English Calendar</small></button><button id="hindiMode">☀️ हिंदी पंचांग<br><small>Hindu Panchang</small></button></div>
+   <div class="calendar-head"><button id="prev" aria-label="Previous month">‹</button><div><h2 id="monthTitle"></h2><div id="monthEnglish" class="en-month"></div></div><button id="next" aria-label="Next month">›</button></div>
+   <div class="weekdays"><div>रवि<br>Sun</div><div>सोम<br>Mon</div><div>मंगल<br>Tue</div><div>बुध<br>Wed</div><div>गुरु<br>Thu</div><div>शुक्र<br>Fri</div><div>शनि<br>Sat</div></div>
+   <div id="calendar" class="days"></div>
+   <div class="legend"><span>🔴 छुट्टी / Holiday</span><span>🔵 विशेष दिवस</span><span>🟠 आज / Today</span></div>
+  </section>
+  <section class="detail-column">
+   <div class="selected-hero"><div id="selectedMeta" class="weekday"></div><div id="selectedDate" class="bigday"></div><div id="selectedLabel" class="date-label"></div></div>
+   <div class="card section-card"><h3 class="section-title"><span class="icon">🌸</span> आज के विशेष दिवस</h3><div id="selectedEvents" class="eventlist"></div></div>
+   <div class="card section-card"><h3 class="section-title"><span class="icon">📅</span> आज की Google Calendar मीटिंग</h3><div id="meetingList" class="eventlist"><div class="empty">Google Calendar connect करने के बाद मीटिंग यहाँ दिखेंगी।</div></div><div class="eventbuttons"><button id="refreshBtn" class="btn" disabled>↻ Refresh</button><button id="monthEventsBtn" class="btn" disabled>इस महीने की मीटिंग</button></div></div>
+   <div class="card section-card"><h3 class="section-title"><span class="icon">💖</span> इस दिन की पूरी जानकारी</h3><button id="detailsBtn" class="btn primary" style="width:100%">पूरी जानकारी देखें</button><button id="reminderBtn" class="btn" style="width:100%;margin-top:6px">♡ रिमाइंडर जोड़ें</button></div>
+  </section>
+  <aside class="card panchang-panel">
+   <h3 class="section-title"><span class="icon">🪔</span> हिंदी पंचांग विवरण</h3><div id="panchangRows"></div>
+   <div class="section"><h3 class="section-title"><span class="icon">🌐</span> Google Calendar</h3>
+    <div class="muted">मेरी मीटिंग देखें (Read Only)</div>
+    <div class="google-controls section"><input id="clientId" placeholder="Google OAuth Client ID"><button id="connectBtn" class="btn primary">Google Calendar जोड़ें</button><button id="disconnectBtn" class="btn" disabled>Disconnect</button><div id="googleStatus" class="status">अभी कनेक्ट नहीं है। HTTPS hosting और OAuth setup जरूरी है।</div><label class="muted" for="calendarSelect">Calendar चुनें</label><select id="calendarSelect" disabled><option value="primary">Primary calendar</option></select></div>
+   </div>
+   <div class="note">पंचांग की तिथि/नक्षत्र के सटीक स्थानीय समय के लिए विश्वसनीय स्थान-आधारित गणना आवश्यक है। अभी प्रदर्शित कुछ विवरण अनुमानित हैं।</div>
+  </aside>
+ </div>
+ <div class="bottom-grid">
+  <div class="card bottom-card"><div class="bottom-art">🇮🇳</div><div class="bottom-content"><h3>राष्ट्रीय अवकाश<br><span class="en">National Holidays</span></h3><ul><li>26 जनवरी — गणतंत्र दिवस</li><li>15 अगस्त — स्वतंत्रता दिवस</li><li>02 अक्टूबर — गांधी जयंती</li></ul><button id="holidayJump">पूरी सूची देखें</button></div></div>
+  <div class="card bottom-card"><div class="bottom-art">🪔</div><div class="bottom-content"><h3>प्रमुख त्योहार<br><span class="en">Festivals</span></h3><ul><li>होली</li><li>दीपावली</li><li>दशहरा</li><li>रक्षाबंधन / ईद</li></ul><button id="festivalJump">पूरी सूची देखें</button></div></div>
+  <div class="card bottom-card"><div class="bottom-art">🌍</div><div class="bottom-content"><h3>महीने के विशेष दिवस<br><span class="en">Month-wise Special Days</span></h3><div id="monthList" class="month-list-wrap eventlist"></div></div></div>
+  <div class="card bottom-card"><div class="bottom-art">🗓️</div><div class="bottom-content"><h3>वार्षिक सूची<br><span class="en">Yearly Overview</span></h3><ul><li>सभी राष्ट्रीय दिवस</li><li>सभी विशेष दिवस</li><li>प्रमुख त्योहार</li><li>महीने के अनुसार सारांश</li></ul><button id="yearOverview">वार्षिक कैलेंडर देखें</button></div></div>
+ </div>
+</main>
+<script>
+const months=["जनवरी","फ़रवरी","मार्च","अप्रैल","मई","जून","जुलाई","अगस्त","सितंबर","अक्टूबर","नवंबर","दिसंबर"],weekdays=["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+// Annual observances and India-wide commonly observed days. Official gazetted/optional holidays vary by year and state.
+const fixed=[
+["01-01","नववर्ष दिवस","famous","New Year's Day"],["01-04","विश्व ब्रेल दिवस","famous","World Braille Day"],["01-09","प्रवासी भारतीय दिवस","national","Pravasi Bharatiya Divas"],["01-12","राष्ट्रीय युवा दिवस","national","National Youth Day"],["01-15","भारतीय सेना दिवस","national","Indian Army Day"],["01-23","पराक्रम दिवस / नेताजी जयंती","national","Parakram Diwas"],["01-24","राष्ट्रीय बालिका दिवस","national","National Girl Child Day"],["01-25","राष्ट्रीय मतदाता दिवस","national","National Voters' Day"],["01-26","गणतंत्र दिवस","holiday","Republic Day"],["01-30","शहीद दिवस","national","Martyrs' Day"],
+["02-04","विश्व कैंसर दिवस","famous","World Cancer Day"],["02-13","विश्व रेडियो दिवस","famous","World Radio Day"],["02-21","अंतरराष्ट्रीय मातृभाषा दिवस","famous","International Mother Language Day"],["02-28","राष्ट्रीय विज्ञान दिवस","national","National Science Day"],
+["03-03","विश्व वन्यजीव दिवस","famous","World Wildlife Day"],["03-08","अंतरराष्ट्रीय महिला दिवस","famous","International Women's Day"],["03-14","पाई दिवस","famous","Pi Day"],["03-20","विश्व गौरैया दिवस","famous","World Sparrow Day"],["03-21","विश्व कविता दिवस","famous","World Poetry Day"],["03-22","विश्व जल दिवस","famous","World Water Day"],["03-23","शहीद दिवस (भगत सिंह, राजगुरु, सुखदेव)","national","Shaheed Diwas"],["03-24","विश्व टीबी दिवस","famous","World Tuberculosis Day"],
+["04-07","विश्व स्वास्थ्य दिवस","famous","World Health Day"],["04-14","डॉ. भीमराव आंबेडकर जयंती","national","Dr. B. R. Ambedkar Jayanti"],["04-18","विश्व धरोहर दिवस","famous","World Heritage Day"],["04-22","पृथ्वी दिवस","famous","Earth Day"],["04-23","विश्व पुस्तक दिवस","famous","World Book Day"],["04-24","राष्ट्रीय पंचायती राज दिवस","national","National Panchayati Raj Day"],
+["05-01","मजदूर दिवस","famous","International Workers' Day"],["05-03","विश्व प्रेस स्वतंत्रता दिवस","famous","World Press Freedom Day"],["05-08","विश्व रेड क्रॉस दिवस","famous","World Red Cross Day"],["05-11","राष्ट्रीय प्रौद्योगिकी दिवस","national","National Technology Day"],["05-12","अंतरराष्ट्रीय नर्स दिवस","famous","International Nurses Day"],["05-31","विश्व तंबाकू निषेध दिवस","famous","World No Tobacco Day"],
+["06-05","विश्व पर्यावरण दिवस","famous","World Environment Day"],["06-14","विश्व रक्तदाता दिवस","famous","World Blood Donor Day"],["06-21","अंतरराष्ट्रीय योग दिवस","national","International Yoga Day"],["06-26","नशीली दवाओं के दुरुपयोग के विरुद्ध दिवस","famous","International Day Against Drug Abuse"],
+["07-01","राष्ट्रीय चिकित्सक दिवस (भारत)","national","National Doctors' Day"],["07-11","विश्व जनसंख्या दिवस","famous","World Population Day"],["07-26","कारगिल विजय दिवस","national","Kargil Vijay Diwas"],["07-28","विश्व हेपेटाइटिस दिवस","famous","World Hepatitis Day"],
+["08-07","राष्ट्रीय हथकरघा दिवस","national","National Handloom Day"],["08-09","भारत छोड़ो आंदोलन दिवस","national","Quit India Movement Day"],["08-12","अंतरराष्ट्रीय युवा दिवस","famous","International Youth Day"],["08-15","स्वतंत्रता दिवस","holiday","Independence Day"],["08-29","राष्ट्रीय खेल दिवस","national","National Sports Day"],
+["09-05","शिक्षक दिवस","national","Teachers' Day"],["09-08","अंतरराष्ट्रीय साक्षरता दिवस","famous","International Literacy Day"],["09-14","हिंदी दिवस","national","Hindi Diwas"],["09-15","अभियंता दिवस (भारत)","national","Engineers' Day"],["09-16","विश्व ओजोन दिवस","famous","World Ozone Day"],["09-21","अंतरराष्ट्रीय शांति दिवस","famous","International Day of Peace"],["09-27","विश्व पर्यटन दिवस","famous","World Tourism Day"],
+["10-02","गांधी जयंती","holiday","Gandhi Jayanti"],["10-08","भारतीय वायु सेना दिवस","national","Indian Air Force Day"],["10-10","विश्व मानसिक स्वास्थ्य दिवस","famous","World Mental Health Day"],["10-16","विश्व खाद्य दिवस","famous","World Food Day"],["10-24","संयुक्त राष्ट्र दिवस","famous","United Nations Day"],["10-31","राष्ट्रीय एकता दिवस","national","National Unity Day"],
+["11-07","राष्ट्रीय कैंसर जागरूकता दिवस","national","National Cancer Awareness Day"],["11-11","राष्ट्रीय शिक्षा दिवस","national","National Education Day"],["11-14","बाल दिवस","national","Children's Day"],["11-19","विश्व शौचालय दिवस","famous","World Toilet Day"],["11-26","संविधान दिवस","national","Constitution Day"],
+["12-01","विश्व एड्स दिवस","famous","World AIDS Day"],["12-04","भारतीय नौसेना दिवस","national","Indian Navy Day"],["12-07","सशस्त्र सेना झंडा दिवस","national","Armed Forces Flag Day"],["12-10","मानवाधिकार दिवस","famous","Human Rights Day"],["12-14","राष्ट्रीय ऊर्जा संरक्षण दिवस","national","National Energy Conservation Day"],["12-22","राष्ट्रीय गणित दिवस","national","National Mathematics Day"],["12-25","क्रिसमस","holiday","Christmas"],["12-26","वीर बाल दिवस","national","Veer Baal Diwas"]
+];
+const movable={
+2025:[["03-14","होली","festival","Holi"],["03-31","ईद-उल-फितर (संभावित)","festival","Eid al-Fitr (tentative)"],["08-27","गणेश चतुर्थी","festival","Ganesh Chaturthi"],["10-02","दशहरा / विजयादशमी (कुछ कैलेंडरों में तारीख भिन्न)","festival","Dussehra"],["10-20","दीपावली","festival","Diwali"],["10-22","गोवर्धन पूजा","festival","Govardhan Puja"],["10-23","भाई दूज","festival","Bhai Dooj"]],
+2026:[["01-14","मकर संक्रांति / पोंगल","festival","Makar Sankranti / Pongal"],["03-04","होली","festival","Holi"],["03-20","ईद-उल-फितर (संभावित)","festival","Eid al-Fitr (tentative)"],["03-26","राम नवमी (अनुमानित)","festival","Ram Navami (tentative)"],["04-03","गुड फ्राइडे","holiday","Good Friday"],["05-27","ईद-उल-अजहा (संभावित)","festival","Eid al-Adha (tentative)"],["08-28","रक्षाबंधन (अनुमानित)","festival","Raksha Bandhan (tentative)"],["09-04","जन्माष्टमी (अनुमानित)","festival","Janmashtami (tentative)"],["10-20","दशहरा / विजयादशमी (अनुमानित)","festival","Dussehra (tentative)"],["11-08","दीपावली (अनुमानित)","festival","Diwali (tentative)"],["11-10","गोवर्धन पूजा (अनुमानित)","festival","Govardhan Puja (tentative)"],["11-11","भाई दूज (अनुमानित)","festival","Bhai Dooj (tentative)"]],
+2027:[["01-14","मकर संक्रांति / पोंगल","festival","Makar Sankranti / Pongal"],["03-22","होली (अनुमानित)","festival","Holi (tentative)"],["03-10","ईद-उल-फितर (संभावित)","festival","Eid al-Fitr (tentative)"],["04-02","गुड फ्राइडे","holiday","Good Friday"],["04-15","राम नवमी (अनुमानित)","festival","Ram Navami (tentative)"],["08-17","रक्षाबंधन (अनुमानित)","festival","Raksha Bandhan (tentative)"],["08-25","जन्माष्टमी (अनुमानित)","festival","Janmashtami (tentative)"],["10-09","दशहरा (अनुमानित)","festival","Dussehra (tentative)"],["10-29","दीपावली (अनुमानित)","festival","Diwali (tentative)"]]
+};
+const events=[];fixed.forEach(a=>events.push({month:+a[0].slice(0,2)-1,day:+a[0].slice(3),name:a[1],type:a[2],en:a[3]}));Object.entries(movable).forEach(([y,arr])=>arr.forEach(a=>events.push({year:+y,month:+a[0].slice(0,2)-1,day:+a[0].slice(3),name:a[1],type:a[2],en:a[3]})));
+const $=id=>document.getElementById(id);if($("monthSelect"))months.forEach((m,i)=>$("monthSelect").add(new Option(m,i)));
+for(let y=2020;y<=2040;y++)$("yearSelect").add(new Option(y,y));
+if(!$("typeFilter")){const filter=document.createElement("select");filter.id="typeFilter";filter.style.display="none";filter.innerHTML='<option value="all">All</option><option value="holiday">Holiday</option><option value="festival">Festival</option><option value="national">National</option><option value="famous">Famous</option>';document.body.appendChild(filter);}
+let view=new Date(),selected=new Date(),mode="english",accessToken=null,tokenClient=null,googleEvents=[],gapiReady=false,gisReady=false;view=new Date(view.getFullYear(),view.getMonth(),1);
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function dateText(d){return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;}
+function dayEvents(d){return events.filter(e=>e.month===d.getMonth()&&e.day===d.getDate()&&(!e.year||e.year===d.getFullYear()));}
+function eventCard(name,meta,type=""){let cls=type==="holiday"?"holiday":type==="meeting"?"meeting":type==="panchang"?"panchang":type==="festival"?"festival":"";return `<div class="event"><div class="eventname">${esc(name)}</div><div class="eventmeta">${esc(meta||"")}</div>${type?`<span class="pill ${cls}">${({holiday:"राष्ट्रीय अवकाश",meeting:"Google Calendar",panchang:"पंचांग जानकारी",festival:"प्रमुख त्योहार",national:"राष्ट्रीय दिवस",famous:"प्रसिद्ध दिवस"})[type]||type}</span>`:""}</div>`;}
+function panchangInfo(d){const t=["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा"];let n=((Math.floor((d-new Date(2024,0,11))/86400000)%30)+30)%30;return {masa:["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"][d.getMonth()],tithi:t[n%15],paksha:n<15?"शुक्ल पक्ष":"कृष्ण पक्ष"};}
+function render(){
+ const title=$("monthTitle"), yearSelect=$("yearSelect"), monthEnglish=$("monthEnglish");
+ if(title)title.textContent=`${months[view.getMonth()]} ${view.getFullYear()}`;
+ if(monthEnglish)monthEnglish.textContent=new Date(view.getFullYear(),view.getMonth(),1).toLocaleDateString("en-IN",{month:"long",year:"numeric"});
+ if(yearSelect)yearSelect.value=view.getFullYear();
+ document.querySelectorAll(".month-link").forEach(b=>b.classList.toggle("active",Number(b.dataset.m)===view.getMonth()));
+ const first=new Date(view.getFullYear(),view.getMonth(),1);
+ const start=first.getDay();
+ const lastDay=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+ const total=Math.ceil((start+lastDay)/7)*7;
+ const calendar=$("calendar");
+ if(!calendar)return;
+ let out="";
+ const today=new Date();
+ for(let i=0;i<total;i++){
+   const d=new Date(view.getFullYear(),view.getMonth(),i-start+1);
+   const ev=dayEvents(d);
+   const isToday=d.toDateString()===today.toDateString();
+   const isSelected=d.toDateString()===selected.toDateString();
+   const label=mode==="english"?String(d.getDate()):`${d.getDate()}<small style="display:block;font-size:9px;font-weight:700">${panchangInfo(d).tithi}</small>`;
+   out+=`<button type="button" class="day ${d.getMonth()!==view.getMonth()?"other":""} ${isToday?"today":""} ${isSelected?"selected":""} ${d.getDay()===0?"sunday":""} ${ev.length?"has-event":""}" data-date="${d.getFullYear()}-${d.getMonth()}-${d.getDate()}" aria-label="${dateText(d)}"><span class="num">${label}</span>${ev.slice(0,2).map(e=>`<span class="tiny">${esc(e.name)}</span>`).join("")}</button>`;
+ }
+ calendar.innerHTML=out;
+ calendar.querySelectorAll(".day").forEach(b=>b.onclick=()=>{
+   const [y,m,d]=b.dataset.date.split("-").map(Number);
+   selected=new Date(y,m,d);view=new Date(y,m,1);render();
+   if(accessToken)loadEvents();
+ });
+ renderSelected();
+ renderMonthList();
+ renderMeetings();
+}
+function renderPanchang(){let p=panchangInfo(selected);let rows=[["विक्रम संवत",selected.getFullYear()+57],["शक संवत",selected.getFullYear()-78],["मास",p.masa+" (अनुमानित)"],["तिथि",p.tithi+" (अनुमानित)"],["पक्ष",p.paksha],["नक्षत्र","सटीक गणना आवश्यक"],["योग","सटीक गणना आवश्यक"],["करण","सटीक गणना आवश्यक"],["सूर्योदय","स्थानानुसार बदलता है"],["सूर्यास्त","स्थानानुसार बदलता है"],["चंद्र स्थिति","स्थानीय पंचांग आवश्यक"]];if($("panchangRows"))$("panchangRows").innerHTML=rows.map(r=>`<div class="panchang-row"><span>☼ ${esc(r[0])}</span><strong>${esc(r[1])}</strong></div>`).join("");}
+function renderSelected(){ renderPanchang(); $("selectedDate").textContent=selected.getDate();$("selectedMeta").textContent=weekdays[selected.getDay()]+(selected.toDateString()===new Date().toDateString()?" · आज":"");if($("selectedLabel"))$("selectedLabel").textContent=dateText(selected);let ev=dayEvents(selected).map(e=>eventCard(e.name,e.en,e.type));if(mode==="hindi"){let p=panchangInfo(selected);ev.unshift(eventCard(`हिंदू मास: ${p.masa}`,`अनुमानित तिथि: ${p.tithi} · ${p.paksha}`,"panchang"),eventCard("नक्षत्र, योग और करण","सटीक गणना उपलब्ध नहीं; स्थान और विश्वसनीय पंचांग स्रोत आवश्यक है","panchang"));} $("selectedEvents").innerHTML=ev.length?ev.join(""):'<div class="empty">इस तारीख के लिए कोई प्रमुख दिवस सूचीबद्ध नहीं है।</div>';}
+function renderMonthList(){let q=$("search").value.trim().toLowerCase(),type=$("typeFilter").value;let list=events.filter(e=>e.month===view.getMonth()&&(!e.year||e.year===view.getFullYear())&&(type==="all"||e.type===type)&&(!q||(e.name+" "+e.en).toLowerCase().includes(q))).sort((a,b)=>a.day-b.day);$("monthList").innerHTML=list.length?list.map(e=>eventCard(`${e.day} ${months[e.month]} — ${e.name}`,e.en,e.type)).join(""):'<div class="empty">इस महीने के लिए कोई परिणाम नहीं मिला।</div>';}
+function renderMeetings(){let ev=googleEvents.filter(e=>{let s=new Date(e.start?.dateTime||e.start?.date),endRaw=e.end?.dateTime||e.end?.date,end=new Date(endRaw);if(e.start?.date&&!e.start?.dateTime)end.setDate(end.getDate()-1);let day=new Date(selected.getFullYear(),selected.getMonth(),selected.getDate());return day>=new Date(s.getFullYear(),s.getMonth(),s.getDate())&&day<=new Date(end.getFullYear(),end.getMonth(),end.getDate());});$("meetingList").innerHTML=ev.length?ev.map(e=>{let st=e.start?.dateTime?new Date(e.start.dateTime).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"पूरे दिन";return eventCard(e.summary||"(बिना शीर्षक)",`${st}${e.location?" · "+e.location:""}`,"meeting")}).join(""):accessToken?'<div class="empty">इस तारीख के लिए कोई मीटिंग नहीं मिली।</div>':'<div class="empty">Google Calendar कनेक्ट करने के बाद मीटिंग यहाँ दिखेंगी।</div>';}
+function status(msg,kind=""){ $("googleStatus").className="status "+kind;$("googleStatus").textContent=msg;}
+function loadScript(src){return new Promise((resolve,reject)=>{let s=document.createElement("script");s.src=src;s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}
+async function setupGoogle(){if(!gapiReady){await loadScript("https://apis.google.com/js/api.js");await new Promise(resolve=>gapi.load("client",resolve));await gapi.client.init({});gapiReady=true;}if(!gisReady){await loadScript("https://accounts.google.com/gsi/client");gisReady=true;}}
+$("connectBtn").onclick=async()=>{let clientId=$("clientId").value.trim();if(!clientId){status("पहले Google Cloud Console से OAuth Client ID डालें।","err");return;}try{status("Google sign-in तैयार हो रहा है…");await setupGoogle();tokenClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.calendarlist.readonly",callback:async r=>{if(r.error){status("Google sign-in पूरा नहीं हुआ: "+r.error,"err");return;}accessToken=r.access_token;gapi.client.setToken({access_token:accessToken});$("disconnectBtn").disabled=false;$("refreshBtn").disabled=false;$("monthEventsBtn").disabled=false;$("calendarSelect").disabled=false;status("Google Calendar कनेक्ट हो गया। केवल पढ़ने की अनुमति सक्रिय है।","ok");if($("topConnected"))$("topConnected").textContent="✓ Connected";await loadCalendars();await loadEvents();}});tokenClient.requestAccessToken({prompt:"consent"});}catch(e){status("कनेक्शन नहीं हो सका: "+(e.message||e)+". HTTPS hosting और सही Authorized JavaScript origin जाँचें।","err");}};
+async function loadCalendars(){try{let r=await gapi.client.calendar.calendarList.list({maxResults:100}),sel=$("calendarSelect");sel.innerHTML="";(r.result.items||[]).forEach(c=>sel.add(new Option(c.summary,c.id)));if(!sel.options.length)sel.add(new Option("Primary calendar","primary"));}catch(e){status("Calendar list नहीं पढ़ सके: "+(e.message||e),"err");}}
+async function loadEvents(){if(!accessToken)return;try{let start=new Date(view.getFullYear(),view.getMonth(),1),end=new Date(view.getFullYear(),view.getMonth()+1,1),r=await gapi.client.calendar.events.list({calendarId:$("calendarSelect").value||"primary",timeMin:start.toISOString(),timeMax:end.toISOString(),singleEvents:true,orderBy:"startTime",maxResults:250});googleEvents=r.result.items||[];status(`कनेक्टेड · इस महीने ${googleEvents.length} मीटिंग/इवेंट मिले।`,"ok");renderMeetings();}catch(e){status("मीटिंग पढ़ने में समस्या: "+(e.result?.error?.message||e.message||e),"err");}}
+$("disconnectBtn").onclick=()=>{if(accessToken&&google?.accounts?.oauth2)google.accounts.oauth2.revoke(accessToken,()=>{});accessToken=null;googleEvents=[];try{gapi.client.setToken(null)}catch{}$("disconnectBtn").disabled=true;$("refreshBtn").disabled=true;$("monthEventsBtn").disabled=true;$("calendarSelect").disabled=true;status("Google Calendar disconnect कर दिया गया।");if($("topConnected"))$("topConnected").textContent="◉ Connect";renderMeetings();};
+$("refreshBtn").onclick=loadEvents;$("monthEventsBtn").onclick=loadEvents;$("calendarSelect").onchange=loadEvents;
+$("prev").onclick=()=>{view.setMonth(view.getMonth()-1);render();if(accessToken)loadEvents()};$("next").onclick=()=>{view.setMonth(view.getMonth()+1);render();if(accessToken)loadEvents()};if($("monthSelect"))$("monthSelect").onchange=()=>{view.setMonth(+$("monthSelect").value);render();if(accessToken)loadEvents()};$("yearSelect").onchange=()=>{view.setFullYear(+$("yearSelect").value);render();if(accessToken)loadEvents()};$("todayBtn").onclick=()=>{selected=new Date();view=new Date(selected.getFullYear(),selected.getMonth(),1);render()};$("englishMode").onclick=()=>{mode="english";$("englishMode").classList.add("active");$("hindiMode").classList.remove("active");render()};$("hindiMode").onclick=()=>{mode="hindi";$("hindiMode").classList.add("active");$("englishMode").classList.remove("active");render()};$("search").oninput=renderMonthList;$("typeFilter").onchange=renderMonthList;
+
+if($("topEnglish"))$("topEnglish").onclick=()=>$("englishMode").click();
+if($("topHindi"))$("topHindi").onclick=()=>$("hindiMode").click();
+document.querySelectorAll(".month-link").forEach(b=>b.addEventListener("click",()=>{view.setMonth(Number(b.dataset.m));selected=new Date(view.getFullYear(),view.getMonth(),Math.min(selected.getDate(),new Date(view.getFullYear(),view.getMonth()+1,0).getDate()));render();if(accessToken)loadEvents();}));
+$("prevYear").onclick=()=>{view.setFullYear(view.getFullYear()-1);render();if(accessToken)loadEvents();};
+$("nextYear").onclick=()=>{view.setFullYear(view.getFullYear()+1);render();if(accessToken)loadEvents();};
+$("holidayJump").onclick=()=>{$("typeFilter").value="holiday";$("search").value="";renderMonthList();document.querySelector(".bottom-grid").scrollIntoView({behavior:"smooth"});};
+$("festivalJump").onclick=()=>{$("typeFilter").value="festival";$("search").value="";renderMonthList();document.querySelector(".bottom-grid").scrollIntoView({behavior:"smooth"});};
+$("yearOverview").onclick=()=>{alert("वार्षिक सूची देखने के लिए बाईं ओर महीने चुनें। प्रत्येक महीने के Special Days नीचे दिखते हैं।");};
+$("detailsBtn").onclick=()=>{document.querySelector(".section-card").scrollIntoView({behavior:"smooth"});};
+$("reminderBtn").onclick=()=>{alert("Google Calendar से read-only कनेक्शन है, इसलिए ऐप मीटिंग/रिमाइंडर में बदलाव नहीं कर सकता।");};
+
+render();
+</script>
+</body></html>
